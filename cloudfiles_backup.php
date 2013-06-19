@@ -9,7 +9,7 @@ $username = 'user_name'; // define username
 $apiKey = 'api_key'; // define api key
 $url = "https://identity.api.rackspacecloud.com/v2.0/"; // define endpoint
 $target = 'container_name'; // define target container
-#$expiration = 3600; // define object expiration in seconds. 3600 minimum value.
+//$expiration = 3600; // define object expiration in seconds. 3600 minimum value.
 $filePath = $arg[1]; // define file path - supplied by bash script
 $fileName = $arg[2]; // define file path - supplied by bash script
 
@@ -45,7 +45,7 @@ $container = $ostore->Container($target);
 
 //create new object
 $newObj = $container->DataObject();
-$newObj->extra_headers['X-Delete-After'] = 3600;
+//$newObj->extra_headers['X-Delete-After'] = 3600;
 $newObj->Create( array('name' => $fileName, 'content_type' => 'application/x-compressed'), $filePath); 
 
 ?>
