@@ -26,7 +26,7 @@ $credentials = array(
     'apiKey' => $apiKey
 );
 $connection = new Rackspace($endpoint, $credentials);
-$connection->SetDefaults('ObjectStore','cloudFiles','ORD','publicURL');
+$connection->SetDefaults('ObjectStore','cloudFiles','ORD','publicURL'); //If not ORD, set to your region. 
 
 
 // progress callback function
@@ -38,7 +38,7 @@ function UploadProgress($len) {
 $connection->SetUploadProgressCallback('UploadProgress');
 
 // create a Cloud Files (ObjectStore) connection
-$ostore = $connection->ObjectStore('cloudFiles','ORD');
+$ostore = $connection->ObjectStore('cloudFiles','ORD'); //If not ORD, set to your region. 
 
  // select existing container
 $container = $ostore->Container($target);
