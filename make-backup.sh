@@ -26,13 +26,23 @@ echo "Packaging backup files."
 # tarball DB and site_files into one file and then remove them.
 cd $backup_root && tar -czpvf $backupname site_files.tgz db_backup.sql.gz --remove-files
 
-#Upload files to rackspace. Calls cloudfiles_backup.php inside backup_root.
-#First argument is the location of the backup file, second argument is the name to be used when uploaded.
-echo "Uploading backup to external host."
-php $backup_root/cloudfiles_backup.php $backup_root/$backupname $backupname
-
-#After a backup has been uploaded, remove the tar ball from the filesystem.
-echo "Removing generated files from local system."
-rm $backup_root/$backupname
-
-echo "Backup process complete."
+if [ ! -f $backup_root/$backupname ];
+then
+	echo "File packaging failed."
+else
+	#Upload files to rackspace. Calls cloudfiles_backup.php inside backup_root.
+	#First argument is the location of the backup file, second argument is the name to be used when uploaded.
+	echo "Uploading backup to external host."
+	php $backup_root/cloudfiles_backup.php $backup_root/$backupname $backupname
+	
+	if [ $? -ne 0 ]; #check to see if php script ran without errors. 
+	then
+	    echo "Error processing cloudfiles_backup.php."
+	else
+		#After a backup has been uploaded, remove the tar ball from the filesystem.
+		echo "Removing generated files from local system."
+		rm $backup_root/$backupname
+		
+		echo "Backup process complete."
+	fi	
+fi
